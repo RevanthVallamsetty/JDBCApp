@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,7 +19,7 @@ import com.mtc.app.vo.Product;
 /**
  * Servlet implementation class ProductServlet
  */
-@WebServlet("/")
+@WebServlet("/products")
 public class ProductServlet extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
@@ -34,34 +35,38 @@ public class ProductServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		List<Product> products = productDAO.findAll();
+		request.setAttribute("products", products);
+		RequestDispatcher view = request.getRequestDispatcher("products.jsp");
+		view.forward(request, response);
 		
 		
-		PrintWriter out = response.getWriter();
 		
-		out.println("<html><body>");
-		
-		out.println("<h2 align=center>Product Records</h2>");
-		
-		out.println("<table align=center border=2>");
-		
-		out.println("<tr><th>ProductId</th><th>Name</th><th>Price</th><th>Quantity</th><th>Description</th></tr>");
-		int Rowindex=1;
-		for (Product product : products) {
-			out.println("<tr>");
-				out.println("<td>"+product.getId()+"</td>");
-				out.println("<td>"+product.getName()+"</td>");
-				out.println("<td>"+product.getPrice()+"</td>");
-				out.println("<td>"+product.getQuantity()+"</td>");
-				out.println("<td>"+product.getDescription()+"</td>");
-				out.println("<td>"+"<a href=/samplewebapp/UpdateProduct?id="+String.valueOf(Rowindex)+">Update</a>"+"</td>");
-			out.println("</tr>");
-			Rowindex++;
-		}
-		
-		out.println("</table>");
-	
-		out.println("</body></html>");
-	
-	}
+//		PrintWriter out = response.getWriter();
+//		
+//		out.println("<html><body>");
+//		
+//		out.println("<h2 align=center>Product Records</h2>");
+//		
+//		out.println("<table align=center border=2>");
+//		
+//		out.println("<tr><th>ProductId</th><th>Name</th><th>Price</th><th>Quantity</th><th>Description</th></tr>");
+//	
+//		for (Product product : products) {
+//			out.println("<tr>");
+//				out.println("<td>"+product.getId()+"</td>");
+//				out.println("<td>"+product.getName()+"</td>");
+//				out.println("<td>"+product.getPrice()+"</td>");
+//				out.println("<td>"+product.getQuantity()+"</td>");
+//				out.println("<td>"+product.getDescription()+"</td>");
+//				out.println("<td>"+"<a href=/samplewebapp/UpdateProduct?id="+String.valueOf(product.getId())+">Update</a>"+"</td>");
+//			out.println("</tr>");
+//			
+//		}
+//		
+//		out.println("</table>");
+//	
+//		out.println("</body></html>");
+//	
+}
 
 }
